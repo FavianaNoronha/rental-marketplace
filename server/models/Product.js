@@ -1,0 +1,138 @@
+const mongoose = require('mongoose');
+
+const productSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: [true, 'Please provide a title'],
+    trim: true,
+    maxlength: [100, 'Title cannot be more than 100 characters']
+  },
+  description: {
+    type: String,
+    required: [true, 'Please provide a description'],
+    maxlength: [2000, 'Description cannot be more than 2000 characters']
+  },
+  category: {
+    type: String,
+    required: [true, 'Please select a category'],
+    enum: ['Clothes', 'Shoes', 'Accessories', 'Bags', 'Jewelry', 'Other']
+  },
+  subcategory: {
+    type: String,
+    required: [true, 'Please select a subcategory'],
+    enum: ['Men', 'Women', 'Kids', 'Unisex']
+  },
+  condition: {
+    type: String,
+    required: [true, 'Please select a condition'],
+    enum: ['New', 'Like New', 'Good', 'Fair']
+  },
+  listingType: {
+    type: String,
+    required: [true, 'Please select a listing type'],
+    enum: ['sale', 'rent', 'both']
+  },
+  price: {
+    sale: {
+      type: Number,
+      min: 0
+    },
+    rent: {
+      perDay: {
+        type: Number,
+        min: 0
+      },
+      perWeek: {
+        type: Number,
+        min: 0
+      },
+      deposit: {
+        type: Number,
+        min: 0
+      }
+    }
+  },
+  images: [{
+    url: {
+      type: String,
+      required: true
+    },
+    public_id: String
+  }],
+  specifications: {
+    brand: String,
+    size: String,
+    color: String,
+    material: String
+  },
+  quantity: {
+    type: Number,
+    required: [true, 'Please provide quantity'],
+    min: 1,
+    default: 1
+  },
+  available: {
+    type: Boolean,
+    default: true
+  },
+  location: {
+    city: {
+      type: String,
+      required: [true, 'Please provide city']
+    },
+    state: String,
+    zipCode: String,
+    country: {
+      type: String,
+      default: 'USA'
+    },
+    coordinates: {
+      type: {
+        type: String,
+        enum: ['Point'],
+        default: 'Point'
+      },
+      coordinates: {
+        type: [Number],
+        default: [0, 0]
+      }
+    }
+  },
+  seller: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  views: {
+    type: Number,
+    default: 0
+  },
+  featured: {
+    type: Boolean,
+    default: false
+  },
+  status: {
+    type: String,
+    enum: ['active', 'sold', 'rented', 'inactive'],
+    default: 'active'
+  },
+  tags: [String],
+  rentalDates: [{
+    startDate: Date,
+    endDate: Date,
+    renter: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  }]
+}, {
+  timestamps: true
+});
+
+// Index for geospatial queries
+productSchema.index({ 'location.coordinates': '2dsphere' });
+
+// Index for text search
+productSchema.index({ title: 'text', description: 'text', tags: 'text' });
+
+module.exports = mongoose.model('Product', productSchema);

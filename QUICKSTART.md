@@ -92,6 +92,13 @@ You should see:
 
 Open your browser and go to: **http://localhost:3000**
 
+**Important for Safari users:**
+- Make sure to type the full URL including `http://`: **http://localhost:3000**
+- If Safari shows "Cannot connect to server", see the [TROUBLESHOOTING.md](TROUBLESHOOTING.md) guide
+- Safari may require you to disable certain privacy settings for localhost development
+
+**Alternative browsers:** Chrome or Firefox work great for development!
+
 ## 🎯 Test the Application
 
 ### Create Your First Account
@@ -117,6 +124,15 @@ Open your browser and go to: **http://localhost:3000**
 3. Click on any product to view details
 
 ## 🔧 Troubleshooting
+
+### Safari "Cannot Connect to Server" Error
+
+If you see this error in Safari:
+1. Make sure BOTH backend and frontend servers are running (check Steps 4)
+2. Use the full URL with `http://`: **http://localhost:3000**
+3. Try clearing Safari's cache: `Safari > Preferences > Privacy > Manage Website Data > Remove All`
+4. Try a different browser (Chrome or Firefox)
+5. See the complete [TROUBLESHOOTING.md](TROUBLESHOOTING.md) guide for detailed solutions
 
 ### MongoDB Connection Error
 

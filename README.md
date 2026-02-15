@@ -190,6 +190,13 @@ Open your browser and navigate to:
 - **Backend API:** http://localhost:5000/api
 - **Health Check:** http://localhost:5000/api/health
 
+**Browser Compatibility:**
+- ✅ **Recommended:** Chrome, Firefox, Edge
+- ⚠️ **Safari:** Works but may require additional configuration (see [TROUBLESHOOTING.md](TROUBLESHOOTING.md))
+- Make sure to use `http://` (not `https://`) when accessing localhost
+
+**Having issues?** Check the [TROUBLESHOOTING.md](TROUBLESHOOTING.md) guide for common problems and solutions.
+
 ## 🎯 Usage Guide
 
 ### Creating an Account

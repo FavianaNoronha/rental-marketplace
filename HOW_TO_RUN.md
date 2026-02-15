@@ -2,6 +2,8 @@
 
 This guide shows you exactly how to run both the backend and frontend servers for the RentStyle rental marketplace.
 
+**New to terminals?** Check out **[TERMINAL_GUIDE.md](TERMINAL_GUIDE.md)** for detailed instructions on using terminals in VS Code and Mac!
+
 ## 📋 What You Need First
 
 Before starting, make sure you have:

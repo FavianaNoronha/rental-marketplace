@@ -7,6 +7,7 @@ A full-featured, production-ready marketplace platform for renting and selling c
 
 ## 🚀 Quick Links
 
+- **[Terminal Guide](TERMINAL_GUIDE.md)** - How to use terminals in VS Code and Mac
 - **[How to Run Backend & Frontend](HOW_TO_RUN.md)** - Step-by-step guide to run both servers
 - **[Quick Start Guide](QUICKSTART.md)** - Get started in 5 minutes
 - **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions

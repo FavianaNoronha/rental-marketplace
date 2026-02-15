@@ -5,6 +5,12 @@ A full-featured, production-ready marketplace platform for renting and selling c
 ![RentStyle](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
+## 🚀 Quick Links
+
+- **[How to Run Backend & Frontend](HOW_TO_RUN.md)** - Step-by-step guide to run both servers
+- **[Quick Start Guide](QUICKSTART.md)** - Get started in 5 minutes
+- **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
+
 ## 🌟 Features
 
 ### User Features

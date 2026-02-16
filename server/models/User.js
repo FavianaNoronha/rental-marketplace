@@ -61,6 +61,18 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  emailVerified: {
+    type: Boolean,
+    default: false
+  },
+  phoneVerified: {
+    type: Boolean,
+    default: false
+  },
+  kycVerified: {
+    type: Boolean,
+    default: false
+  },
   verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpire: Date,

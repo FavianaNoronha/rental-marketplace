@@ -1,18 +1,55 @@
 # RentStyle - Rental & Selling Marketplace
 
+## 🎉 100% FREE TO USE PLATFORM - NO HIDDEN FEES!
+
 A full-featured, production-ready marketplace platform for renting and selling clothes, shoes, and accessories. Built with modern web technologies focusing on user experience, security, and sustainability.
 
-![RentStyle](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![RentStyle](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Security](https://img.shields.io/badge/security-OTP%20%2B%20KYC-success.svg)
 
 ## 🚀 Quick Links
 
+- **[Features Guide](FEATURES_GUIDE.md)** - Complete guide to all security features
 - **[Terminal Guide](TERMINAL_GUIDE.md)** - How to use terminals in VS Code and Mac
 - **[How to Run Backend & Frontend](HOW_TO_RUN.md)** - Step-by-step guide to run both servers
 - **[Quick Start Guide](QUICKSTART.md)** - Get started in 5 minutes
 - **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
 
-## 🌟 Features
+## ✨ NEW Advanced Features
+
+### 🔒 Security & Trust
+- **OTP Verification System** - Secure handover and return with one-time passwords
+- **Security Deposit Management** - Automatic deposit hold and refund system
+- **Condition Verification** - Photo-based condition tracking before/after rental
+- **KYC Verification** - Identity verification with government ID
+- **Damage Protection** - Fair assessment and automatic charge calculation
+- **Insurance Options** - Optional coverage for high-value items
+- **Dispute Resolution** - Built-in system for conflict handling
+- **Late Fee Management** - Automatic calculation for overdue returns
+
+### 💬 Communication
+- **Real-time Messaging** - Secure in-app chat between users
+- **Chat History** - Complete message history for each conversation
+- **File Sharing** - Share images and documents securely
+- **Rental Requests** - Send rental requests through chat
+
+### 💳 Payment & Transactions
+- **Secure Payment Gateway** - Industry-standard payment processing
+- **Transaction History** - Complete record of all payments
+- **Wallet System** - Track earnings and balances
+- **Automatic Refunds** - Smart refund processing based on condition
+- **Additional Charges** - Transparent handling of damage/late fees
+
+### 📊 Enhanced User Experience
+- **Verification Badges** - KYC, email, phone verification indicators
+- **Trust Scores** - User ratings and review system
+- **Rental Calendar** - See availability and booking dates
+- **Condition Ratings** - 1-5 star system for item condition
+- **Evidence Upload** - Photos and documents for disputes
+- **Notification System** - Real-time alerts for important events
+
+## 🌟 Core Features
 
 ### User Features
 - **Authentication & Authorization**
@@ -20,6 +57,7 @@ A full-featured, production-ready marketplace platform for renting and selling c
   - User registration and login
   - Password reset functionality
   - Protected routes and role-based access
+  - Multi-factor verification (Email, Phone, KYC)
 
 - **Product Listings**
   - Create listings for rent or sale
@@ -27,18 +65,23 @@ A full-featured, production-ready marketplace platform for renting and selling c
   - Advanced categorization (category, subcategory, condition)
   - Detailed product specifications (brand, size, color, material)
   - Location-based listings
+  - Rental pricing (per day/week)
+  - Security deposit settings
 
 - **Search & Discovery**
   - Advanced search with filters
   - Filter by category, price range, condition, location
   - Sort by newest, price, popularity
   - Real-time search results
+  - Verified sellers filter
 
 - **User Dashboard**
   - Manage all your listings
   - View listing statistics (active, sold, rented)
   - Edit or delete listings
   - Track views and engagement
+  - Rental management interface
+  - Transaction history
 
 - **Favorites & Wishlist**
   - Save favorite items
@@ -48,6 +91,8 @@ A full-featured, production-ready marketplace platform for renting and selling c
 - **User Profiles**
   - Customizable user profiles
   - Rating and review system
+  - Verification badges
+  - Rental history
   - Location and contact information
   - User verification badges
 

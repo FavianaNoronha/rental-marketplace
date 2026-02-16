@@ -103,6 +103,27 @@ const productSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  pricePerDay: {
+    type: Number,
+    min: 0
+  },
+  securityDeposit: {
+    type: Number,
+    min: 0
+  },
+  minimumRentalDays: {
+    type: Number,
+    default: 1,
+    min: 1
+  },
+  maximumRentalDays: {
+    type: Number,
+    default: 30
+  },
   views: {
     type: Number,
     default: 0

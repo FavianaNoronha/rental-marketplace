@@ -51,6 +51,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/rentals', require('./routes/rentals'));
+app.use('/api/payments', require('./routes/payments'));
+app.use('/api/otp', require('./routes/otp'));
+app.use('/api/chats', require('./routes/chats'));
+app.use('/api/kyc', require('./routes/kyc'));
+app.use('/api/disputes', require('./routes/disputes'));
 
 // Health check
 app.get('/api/health', (req, res) => {

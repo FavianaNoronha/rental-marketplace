@@ -145,7 +145,80 @@ const productSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     }
-  }]
+  }],
+  // Social engagement features
+  likesCount: {
+    type: Number,
+    default: 0,
+    index: true
+  },
+  commentsCount: {
+    type: Number,
+    default: 0
+  },
+  sharesCount: {
+    type: Number,
+    default: 0
+  },
+  savesCount: {
+    type: Number,
+    default: 0
+  },
+  // Boost/promotion features
+  boosted: {
+    isActive: {
+      type: Boolean,
+      default: false
+    },
+    startDate: Date,
+    endDate: Date,
+    impressions: {
+      type: Number,
+      default: 0
+    },
+    clicks: {
+      type: Number,
+      default: 0
+    }
+  },
+  // Rental availability tracking
+  currentRental: {
+    isRented: {
+      type: Boolean,
+      default: false,
+      index: true
+    },
+    rentedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    rentalId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Rental'
+    },
+    availableFrom: Date,
+    returnDate: Date
+  },
+  // Waitlist count for display
+  waitlistCount: {
+    type: Number,
+    default: 0
+  },
+  // Try before buy option
+  tryBeforeBuy: {
+    enabled: {
+      type: Boolean,
+      default: false
+    },
+    duration: {
+      type: Number, // days
+      default: 3
+    },
+    fee: {
+      type: Number,
+      default: 0
+    }
+  }
 }, {
   timestamps: true
 });

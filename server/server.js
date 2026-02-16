@@ -80,6 +80,15 @@ app.use('/api/chats', require('./routes/chats'));
 app.use('/api/kyc', require('./routes/kyc'));
 app.use('/api/disputes', require('./routes/disputes'));
 
+// New social & engagement routes
+app.use('/api/feed', require('./routes/feed'));
+app.use('/api/comments', require('./routes/comments'));
+app.use('/api/likes', require('./routes/likes'));
+app.use('/api/rental-status', require('./routes/rentalStatus'));
+app.use('/api/stories', require('./routes/stories'));
+app.use('/api/collections', require('./routes/collections'));
+app.use('/api/social', require('./routes/social'));
+
 // Health check
 app.get('/api/health', async (req, res) => {
   try {

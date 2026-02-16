@@ -11,6 +11,7 @@ import CreateListing from './pages/CreateListing'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
 import Favorites from './pages/Favorites'
+import Feed from './pages/Feed'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/feed" element={<Feed />} />
 
           {/* Protected Routes */}
           <Route

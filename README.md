@@ -10,10 +10,12 @@ A full-featured, production-ready marketplace platform for renting and selling c
 
 ## 🚀 Quick Links
 
+- **[Quick Start (Local)](QUICKSTART.md)** - Get started locally in 5 minutes
+- **[AWS Deployment (Quick)](QUICKSTART_AWS.md)** - Deploy to AWS FREE in 45 minutes  
+- **[AWS Deployment (Detailed)](AWS_DEPLOYMENT.md)** - Complete AWS deployment guide
 - **[Features Guide](FEATURES_GUIDE.md)** - Complete guide to all security features
 - **[Terminal Guide](TERMINAL_GUIDE.md)** - How to use terminals in VS Code and Mac
 - **[How to Run Backend & Frontend](HOW_TO_RUN.md)** - Step-by-step guide to run both servers
-- **[Quick Start Guide](QUICKSTART.md)** - Get started in 5 minutes
 - **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
 
 ## ✨ NEW Advanced Features
@@ -429,6 +431,58 @@ DELETE /api/users/favorites/:productId     Remove from favorites (auth required)
 - **Toast Notifications** - Real-time feedback for actions
 - **Image Optimization** - Lazy loading and placeholder images
 - **Accessibility** - Semantic HTML and ARIA labels
+
+## 🌐 Deployment
+
+### 💡 Deploy on AWS (100% FREE)
+
+Deploy this application on AWS Free Tier for UAT testing with zero cost!
+
+**Quick Start:**
+- 📘 See [QUICKSTART_AWS.md](QUICKSTART_AWS.md) for step-by-step guide (45 minutes)
+- 📚 See [AWS_DEPLOYMENT.md](AWS_DEPLOYMENT.md) for detailed documentation
+
+**What you'll use (all FREE):**
+- MongoDB Atlas (Free M0 cluster - 512MB)
+- AWS EC2 t2.micro (750 hours/month - 12 months)
+- AWS S3 + CloudFront (Static website hosting)
+
+**Automated Deployment:**
+```bash
+# Make deployment script executable
+chmod +x deploy.sh
+
+# Run deployment
+./deploy.sh
+
+# Follow the prompts to deploy backend and frontend
+```
+
+**Manual Deployment:**
+```bash
+# Frontend (S3)
+cd client
+npm run build
+aws s3 sync dist/ s3://your-bucket-name/ --delete
+
+# Backend (EC2)
+# SSH to your EC2 instance
+ssh -i your-key.pem ubuntu@your-ec2-ip
+cd ~/rental-marketplace
+git pull origin main
+cd server && npm install
+pm2 restart rental-backend
+```
+
+### 🔒 Production Checklist
+- [ ] MongoDB Atlas cluster created and configured
+- [ ] EC2 instance launched with security groups configured
+- [ ] Environment variables set in server/.env
+- [ ] S3 bucket created with static website hosting
+- [ ] Frontend built with correct API URL
+- [ ] SSL certificate configured (optional)
+- [ ] Billing alerts configured on AWS
+- [ ] Backups enabled on MongoDB Atlas
 
 ## 🚧 Future Enhancements
 

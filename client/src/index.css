@@ -1,49 +1,233 @@
+/* Import Google Fonts - Neo-Deco Typography System */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Lato:wght@300;400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  body {
+    margin: 0;
+    font-family: 'Lato', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply text-charcoal-800 bg-white;
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3 {
+    @apply font-serif;
+  }
+
+  h4, h5, h6 {
+    @apply font-display;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  /* 2026 Premium Button Styles */
+  .btn {
+    @apply px-6 py-3 rounded-lg font-sans font-semibold transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .btn-primary {
+    @apply bg-mocha-500 text-white hover:bg-mocha-600 shadow-elevation-1 hover:shadow-elevation-2;
+  }
+
+  .btn-luxury {
+    @apply bg-gradient-to-r from-gold-500 to-gold-600 text-white hover:from-gold-600 hover:to-gold-700 shadow-luxury font-semibold;
+  }
+
+  .btn-cool {
+    @apply bg-coolBlue-600 text-white hover:bg-coolBlue-700 shadow-elevation-2;
+  }
+
+  .btn-secondary {
+    @apply bg-taupe-100 text-taupe-800 hover:bg-taupe-200 border border-taupe-300;
+  }
+
+  .btn-outline {
+    @apply border-2 border-mocha-500 text-mocha-600 hover:bg-mocha-50 backdrop-blur-sm;
+  }
+
+  .btn-ghost {
+    @apply text-mocha-600 hover:bg-mocha-50 px-4 py-2;
+  }
+
+  .btn-icon {
+    @apply p-3 rounded-full hover:bg-mocha-50 transition-colors;
+  }
+
+  /* Premium Input Styles */
+  .input {
+    @apply w-full px-4 py-3 border-2 border-charcoal-200 rounded-lg font-body
+           focus:ring-2 focus:ring-mocha-400 focus:border-mocha-400 outline-none
+           transition-all duration-200 bg-white;
+  }
+
+  .input-luxury {
+    @apply input border-gold-300 focus:ring-gold-400 focus:border-gold-400;
+  }
+
+  /* Premium Card Styles */
+  .card {
+    @apply bg-white rounded-xl shadow-elevation-1 overflow-hidden 
+           transition-all duration-300 hover:shadow-elevation-2;
+  }
+
+  .card-luxury {
+    @apply card border border-gold-200 shadow-luxury hover:shadow-lg;
+  }
+
+  .card-bento {
+    @apply card border border-charcoal-200 backdrop-blur-lg bg-white/90;
+  }
+
+  /* Container Utilities */
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-wide {
+    @apply max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Badge Styles */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-sans font-semibold;
+  }
+
+  .badge-mocha {
+    @apply bg-mocha-100 text-mocha-700;
+  }
+
+  .badge-gold {
+    @apply bg-gold-100 text-gold-800 border border-gold-300;
+  }
+
+  .badge-cool {
+    @apply bg-coolBlue-100 text-coolBlue-800 border border-coolBlue-300;
+  }
+
+  .badge-mermaid {
+    @apply bg-gradient-to-r from-mermaid-400 to-mermaid-500 text-white;
+  }
+
+  .badge-taupe {
+    @apply bg-taupe-100 text-taupe-700 border border-taupe-300;
+  }
+
+  .badge-neon {
+    @apply bg-neon-500/20 text-neon-700 border border-neon-400 font-bold;
+  }
+
+  /* Typography Utilities */
+  .text-luxury {
+    @apply font-serif text-charcoal-800 tracking-tight;
+  }
+
+  .text-accent {
+    @apply font-display font-bold uppercase tracking-wider;
+  }
+
+  /* Glassmorphism Effects */
+  .glass {
+    @apply backdrop-blur-lg bg-white/70 border border-white/20;
+  }
+
+  .glass-dark {
+    @apply backdrop-blur-lg bg-charcoal-900/70 border border-white/10;
+  }
+
+  /* Thumb Zone Mobile (Bottom 50% of screen) */
+  .thumb-zone {
+    @apply fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg 
+           border-t border-charcoal-200 shadow-elevation-3 p-4
+           md:relative md:bg-transparent md:backdrop-blur-none md:border-0 md:shadow-none;
+  }
+
+  /* Micro-interactions */
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-300 hover:shadow-glow;
+  }
+
+  /* Shimmer Effect for Loading */
+  .shimmer {
+    @apply relative overflow-hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Sensory UI - Sound indicators */
+  .sound-cue {
+    @apply relative;
+  }
+
+  .sound-cue::before {
+    content: '🔔';
+    @apply absolute -top-1 -right-1 text-xs opacity-0 transition-opacity duration-200;
+  }
+
+  .sound-cue:hover::before {
+    @apply opacity-100;
+  }
 }
 
-* {
-  box-sizing: border-box;
-}
+@layer utilities {
+  /* Scrollbar Styling */
+  .scrollbar-luxury::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
 
-.btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
-}
+  .scrollbar-luxury::-webkit-scrollbar-track {
+    @apply bg-mocha-50;
+  }
 
-.btn-primary {
-  @apply bg-primary-600 text-white hover:bg-primary-700;
-}
+  .scrollbar-luxury::-webkit-scrollbar-thumb {
+    @apply bg-mocha-300 rounded-full;
+  }
 
-.btn-secondary {
-  @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
-}
+  .scrollbar-luxury::-webkit-scrollbar-thumb:hover {
+    @apply bg-mocha-400;
+  }
 
-.btn-outline {
-  @apply border-2 border-primary-600 text-primary-600 hover:bg-primary-50;
-}
+  /* Text Gradient */
+  .text-gradient-mocha {
+    @apply bg-gradient-to-r from-mocha-500 to-mocha-700 bg-clip-text text-transparent;
+  }
 
-.input {
-  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none;
-}
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent;
+  }
 
-.card {
-  @apply bg-white rounded-lg shadow-md overflow-hidden;
-}
+  .text-gradient-cool {
+    @apply bg-gradient-to-r from-coolBlue-500 to-icyBlue-400 bg-clip-text text-transparent;
+  }
 
-.container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  .text-gradient-mermaid {
+    @apply bg-gradient-to-r from-mermaid-400 to-pearl-400 bg-clip-text text-transparent;
+  }
+
+  /* Iridescent Effects */
+  .iridescent {
+    background: linear-gradient(45deg, #67e8f9, #a5f3fc, #c084fc, #22d3ee, #a855f7);
+    background-size: 400% 400%;
+    animation: shimmer 3s ease infinite;
+  }
 }

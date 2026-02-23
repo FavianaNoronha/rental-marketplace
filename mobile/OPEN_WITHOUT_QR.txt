@@ -1,0 +1,124 @@
+📱 How to Open Closetly App Without Scanning QR Code
+
+═══════════════════════════════════════════════════════
+
+METHOD 1: TYPE URL IN EXPO GO (EASIEST) ✅
+═══════════════════════════════════════════════════════
+
+1. Open Expo Go app on your phone
+
+   iPhone: https://apps.apple.com/app/expo-go/id982107779
+   Android: https://play.google.com/store/apps/details?id=host.exp.exponent
+
+2. Look for "Enter URL manually" or tap the search/+ icon
+
+3. Type this URL exactly:
+
+   exp://192.168.1.9:8081
+
+4. Press Enter/Go
+
+5. App will load! 🎉
+
+
+═══════════════════════════════════════════════════════
+
+METHOD 2: USE YOUR COMPUTER'S IP ADDRESS
+═══════════════════════════════════════════════════════
+
+If the above URL doesn't work, your IP might be different.
+
+Run this command to find your actual IP:
+
+   ifconfig | grep "inet " | grep -v 127.0.0.1
+
+Look for something like: inet 192.168.x.x
+
+Then in Expo Go, type: exp://YOUR_IP:8081
+
+
+═══════════════════════════════════════════════════════
+
+METHOD 3: OPEN IN iOS SIMULATOR (if you have Xcode)
+═══════════════════════════════════════════════════════
+
+1. Make sure Xcode is installed
+2. Open Xcode → Preferences → Components → Install iOS Simulator
+3. In the Expo terminal, press 'i' to open iOS simulator
+4. App opens automatically!
+
+
+═══════════════════════════════════════════════════════
+
+METHOD 4: OPEN IN ANDROID EMULATOR (if you have Android Studio)
+═══════════════════════════════════════════════════════
+
+1. Open Android Studio
+2. Tools → AVD Manager → Create/Start Device
+3. In the Expo terminal, press 'a' to open Android
+4. App opens automatically!
+
+
+═══════════════════════════════════════════════════════
+
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════
+
+❌ "Network request failed"
+   → Make sure phone and computer are on SAME WiFi
+   → Try method 2 above (check your IP)
+
+❌ "Unable to connect"
+   → Check if Expo terminal is still running
+   → Look for "Metro waiting on exp://..." message
+   → Restart: cd mobile && npx expo start
+
+❌ "File limit error in terminal"
+   → Run: ulimit -n 65536
+   → Then: cd mobile && npx expo start
+
+❌ "Still can't connect"
+   → Use tunnel mode:
+     cd mobile && npx expo start --tunnel
+   → You'll get a different URL (exp://xxx.xxx.xxx.xxx:8081)
+   → Type that URL in Expo Go
+
+
+═══════════════════════════════════════════════════════
+
+WHAT YOU'LL SEE WHEN IT WORKS ✅
+═══════════════════════════════════════════════════════
+
+1. Purple gradient header "Hello, Guest!"
+2. Four colorful category cards:
+   - Utsav (pink) - Weddings & Celebrations
+   - Safar (teal) - Travel & Adventure
+   - Alankrit (yellow) - Traditional Elegance
+   - Niche-Luxe (purple) - Designer Collection
+3. "Trending Near You" section with products
+4. Product cards with:
+   - Badges (Sanitized, KYC Verified)
+   - Distance tags (e.g., "2.3 km")
+   - Prices (e.g., "₹1,999/day")
+
+LOGIN OPTIONS:
+- Email: demo@closetly.com / Password: Demo@123
+- Phone: 9876543210 (OTP in backend terminal)
+
+
+═══════════════════════════════════════════════════════
+
+STILL NEED HELP?
+═══════════════════════════════════════════════════════
+
+Check what Expo is showing in your terminal:
+
+Look for this line:
+  › Metro waiting on exp://192.168.x.x:8081
+
+That's the URL to type in Expo Go!
+
+Or take a screenshot of your terminal and I can help you find the URL.
+
+
+═══════════════════════════════════════════════════════

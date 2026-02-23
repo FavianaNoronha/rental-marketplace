@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -9,7 +10,7 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop & Tablet Navbar */}
-      <nav className="bg-white/95 backdrop-blur-lg shadow-elevation-2 sticky top-0 z-50 border-b border-charcoal-100">
+      <nav className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-elevation-2 sticky top-0 z-50 border-b border-charcoal-100 dark:border-gray-700">
         <div className="container py-4">
           <div className="flex justify-between items-center">
             {/* Logo with 2026 Neo-Deco Style */}
@@ -21,10 +22,10 @@ const Navbar = () => {
                 </div>
               </div>
               <div>
-                <h1 className="text-2xl font-serif font-bold text-luxury leading-none">
+                <h1 className="text-2xl font-serif font-bold text-luxury dark:text-white leading-none">
                   Closetly
                 </h1>
-                <p className="text-xs text-accent text-mocha-600 leading-none">Infinite Fashion Access</p>
+                <p className="text-xs text-accent text-mocha-600 dark:text-mocha-400 leading-none">Infinite Fashion Access</p>
               </div>
             </Link>
 
@@ -36,6 +37,8 @@ const Navbar = () => {
               >
                 Browse
               </Link>
+
+              <ThemeToggle />
 
               {isAuthenticated ? (
                 <>

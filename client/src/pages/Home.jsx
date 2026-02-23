@@ -1,291 +1,315 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import api from '../services/api';
-import BentoGrid, { BentoCard, BentoHero, BentoStat, BentoCategory, BentoProduct } from '../components/BentoGrid';
-import TrustBadge, { TrustScore } from '../components/TrustBadge';
-import DigitalConcierge from '../components/DigitalConcierge';
-import DigitalBazaar from '../components/DigitalBazaar';
-import DigitalThriftShop from '../components/DigitalThriftShop';
-import SecurityArchitecture from '../components/SecurityArchitecture';
-import AIStyling from '../components/AIStyling';
-import TaskBasedNavigation from '../components/TaskBasedNavigation';
-import FourPillars from '../components/FourPillars';
+import BentoGrid, { BentoProduct } from '../components/BentoGrid';
+import PersonalizationModal from '../components/PersonalizationModal';
+import { ProductGridSkeleton } from '../components/SkeletonLoader';
+import { TrustScore } from '../components/TrustBadge';
 
 const Home = () => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [showConcierge, setShowConcierge] = useState(false);
+  const [tabData, setTabData] = useState({});
+  const [loadingTabs, setLoadingTabs] = useState({});
+  const [activeTab, setActiveTab] = useState('foryou');
+  const [showPersonalization, setShowPersonalization] = useState(false);
+  const [userPreferences, setUserPreferences] = useState(null);
 
   useEffect(() => {
-    fetchFeaturedProducts();
+    // Check if user has completed onboarding
+    const hasOnboarded = localStorage.getItem('hasCompletedOnboarding');
+    const savedPrefs = localStorage.getItem('userPreferences');
+    
+    if (!hasOnboarded) {
+      setShowPersonalization(true);
+    } else if (savedPrefs) {
+      setUserPreferences(JSON.parse(savedPrefs));
+    }
+    
+    // Load first tab only
+    loadTabContent('foryou');
   }, []);
 
-  const fetchFeaturedProducts = async () => {
+  // Lazy load tab content only when clicked
+  const loadTabContent = async (tabId) => {
+    // If already loaded, skip
+    if (tabData[tabId]) return;
+
+    setLoadingTabs(prev => ({ ...prev, [tabId]: true }));
+
     try {
-      const { data } = await api.get('/products?limit=8&sort=popular');
-      setFeaturedProducts(data.data || []);
+      let endpoint = '/products?limit=12';
+      
+      switch(tabId) {
+        case 'foryou':
+          endpoint += '&sort=popular';
+          break;
+        case 'trending':
+          endpoint += '&sort=trending';
+          break;
+        case 'nearby':
+          endpoint += '&nearby=true';
+          break;
+        case 'new':
+          endpoint += '&sort=createdAt&order=desc';
+          break;
+      }
+
+      const { data } = await api.get(endpoint);
+      setTabData(prev => ({ ...prev, [tabId]: data.data || [] }));
     } catch (error) {
       console.error('Error fetching products:', error);
+      setTabData(prev => ({ ...prev, [tabId]: [] }));
     } finally {
-      setLoading(false);
+      setLoadingTabs(prev => ({ ...prev, [tabId]: false }));
     }
   };
 
-  const categories = [
-    { name: 'Clothes', icon: '👔', color: 'mocha', image: 'https://via.placeholder.com/300x200?text=Clothes', count: 1200 },
-    { name: 'Shoes', icon: '👟', color: 'coolBlue', image: 'https://via.placeholder.com/300x200?text=Shoes', count: 430 },
-    { name: 'Jewelry', icon: '💍', color: 'gold', image: 'https://via.placeholder.com/300x200?text=Jewelry', count: 680 },
-    { name: 'Accessories', icon: '👜', color: 'mermaid', image: 'https://via.placeholder.com/300x200?text=Accessories', count: 520 },
-    { name: 'Gadgets', icon: '📱', color: 'coolBlue', image: 'https://via.placeholder.com/300x200?text=Gadgets', count: 250 },
-    { name: 'Bags', icon: '🎒', color: 'taupe', image: 'https://via.placeholder.com/300x200?text=Bags', count: 340 },
-    { name: 'Traditional Wear', icon: '🪔', color: 'gold', image: 'https://via.placeholder.com/300x200?text=Traditional', count: 890 },
-    { name: 'Other', icon: '✨', color: 'mermaid', image: 'https://via.placeholder.com/300x200?text=Other', count: 180 },
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+    loadTabContent(tabId); // Load on demand
+  };
+
+  const handlePersonalizationComplete = (prefs) => {
+    setUserPreferences(prefs);
+    setShowPersonalization(false);
+    // Clear and reload
+    setTabData({});
+    loadTabContent('foryou');
+  };
+
+  const tabs = [
+    { id: 'foryou', name: 'For You', icon: '✨', color: 'from-yellow-400 to-orange-500' },
+    { id: 'trending', name: 'Trending', icon: '🔥', color: 'from-orange-400 to-red-500' },
+    { id: 'nearby', name: 'Nearby', icon: '📍', color: 'from-green-400 to-teal-500' },
+    { id: 'new', name: 'New', icon: '🆕', color: 'from-blue-400 to-purple-500' }
+  ];
+
+  const quickActions = [
+    { name: 'Weddings', icon: '💒', link: '/products?occasion=wedding', color: 'bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300' },
+    { name: 'Festivals', icon: '🎉', link: '/products?occasion=festival', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' },
+    { name: 'Travel', icon: '✈️', link: '/products?occasion=travel', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' },
+    { name: 'Parties', icon: '🎊', link: '/products?occasion=party', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300' }
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Premium Free Platform Banner with 2026 Aesthetic */}
-      <div className="bg-gradient-to-r from-mocha-600 via-gold-500 to-mermaid-500 text-white py-4 text-center font-display font-bold text-lg">
-        <div className="container flex flex-wrap items-center justify-center gap-2">
-          <span className="text-2xl">🎉</span>
-          <span>100% FREE TO USE</span>
-          <span className="hidden sm:inline">•</span>
-          <span className="hidden sm:inline">Zero Platform Fees</span>
-          <span className="hidden sm:inline">•</span>
-          <span className="hidden sm:inline">Professional Security</span>
-          <span className="text-2xl">🎉</span>
-        </div>
-      </div>
-
-      {/* Hero Section - Sophisticated Luxury 2026 */}
-      <section className="relative bg-gradient-to-br from-mocha-500 via-taupe-600 to-charcoal-800 text-white py-24 md:py-32 overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-gold-400 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-mermaid-300 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors">
+      {/* Bright Happy Hero Section */}
+      <section className="relative bg-gradient-to-br from-yellow-400 via-orange-500 to-pink-500 dark:from-orange-600 dark:via-red-600 dark:to-pink-600 text-white py-12 md:py-16 overflow-hidden">
+        {/* Decorative floating elements */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-10 left-10 text-6xl animate-float">👗</div>
+          <div className="absolute top-20 right-20 text-5xl animate-float" style={{ animationDelay: '0.5s' }}>👜</div>
+          <div className="absolute bottom-10 left-1/4 text-4xl animate-float" style={{ animationDelay: '1s' }}>👠</div>
+          <div className="absolute bottom-20 right-1/3 text-5xl animate-float" style={{ animationDelay: '1.5s' }}>💍</div>
         </div>
 
         <div className="container relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-display-lg md:text-display-xl font-serif mb-6 animate-fade-in">
-              Your{' '}
-              <span className="text-gradient-gold inline-block">Life-Event Companion</span>
-            </h1>
-            <p className="text-xl md:text-2xl mb-4 font-body opacity-90 animate-slide-up">
-              From Weddings to Vacations, Festivals to Date Nights - Rent Designer Fashion for Every Moment
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center mb-10 text-sm md:text-base animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <span className="glass px-4 py-2 rounded-full">🪔 Utsav - Festive Wear</span>
-              <span className="glass px-4 py-2 rounded-full">✈️ Safar - Travel Packs</span>
-              <span className="glass px-4 py-2 rounded-full">💎 Alankrit - Jewelry</span>
-              <span className="glass px-4 py-2 rounded-full">🌟 Niche-Luxe</span>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.4s' }}>
-              <Link to="/products" className="btn btn-luxury px-10 py-4 text-lg shadow-luxury">
-                Explore Collection
-              </Link>
-              <button 
-                onClick={() => setShowConcierge(true)}
-                className="btn glass px-10 py-4 text-lg border-2 border-white/30"
-              >
-                Personal Concierge ✨
-              </button>
-            </div>
-
-            {/* Trust Score Display */}
-            <div className="mt-12 flex justify-center">
-              <TrustScore score={96} reviews={15420} className="glass-dark" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Bento Grid - Featured Content */}
-      <section className="py-16 bg-gradient-to-br from-white via-mocha-50/30 to-mermaid-50/30">
-        <div className="container">
-          <BentoGrid>
-            {/* Hero Card */}
-            <BentoHero
-              size="large"
-              title="Exclusive Trunk Show"
-              description="Limited collection of handpicked designer sarees and jewelry available for 48 hours only"
-              badge="✨ Limited Edition"
-              cta="Shop Now"
-              ctaLink="/products?collection=trunk-show"
-              image="https://via.placeholder.com/800x600?text=Trunk+Show"
-            />
-
-            {/* Stats */}
-            <BentoStat
-              label="Active Listings"
-              value="4.2K"
-              icon="📦"
-              trend={12}
-              color="mocha"
-            />
-            <BentoStat
-              label="Happy Users"
-              value="15K+"
-              icon="😊"
-              trend={18}
-              color="mermaid"
-            />
-            <BentoStat
-              label="CO₂ Saved"
-              value="2.4T"
-              icon="🌱"
-              trend={25}
-              color="coolBlue"
-            />
-
-            {/* Featured Category Highlight */}
-            <BentoCard size="medium" gradient className="flex flex-col justify-between">
-              <div>
-                <span className="badge badge-gold mb-3">Trending</span>
-                <h3 className="text-2xl font-serif font-bold mb-2">Pre-Loved Gadgets</h3>
-                <p className="text-sm text-charcoal-600 mb-4">
-                  Laptops, cameras, gaming consoles & more. Get premium tech at unbeatable prices.
-                </p>
-              </div>
-              <Link to="/products?category=Gadgets" className="btn btn-cool w-full">
-                Explore Gadgets
-              </Link>
-            </BentoCard>
-
-            {/* AI Feature Highlight */}
-            <BentoCard size="medium" className="bg-gradient-to-br from-coolBlue-500 to-mermaid-500 text-white">
-              <div className="h-full flex flex-col justify-between">
-                <div>
-                  <div className="text-5xl mb-4">🤖</div>
-                  <h3 className="text-2xl font-serif font-bold mb-2">AI Styling</h3>
-                  <p className="text-sm opacity-90 mb-4">
-                    Upload your wardrobe and get personalized outfit recommendations powered by AI
-                  </p>
-                </div>
-                <button className="btn bg-white text-coolBlue-600 hover:bg-charcoal-50 w-full">
-                  Try Now
-                </button>
-              </div>
-            </BentoCard>
-          </BentoGrid>
-        </div>
-      </section>
-
-      {/* Task-Based Navigation - Myntra-level Category Recall */}
-      <TaskBasedNavigation />
-
-      {/* Four Pillars - Professional Taxonomy */}
-      <FourPillars />
-
-      {/* Digital Bazaar Section */}
-      <DigitalBazaar />
-
-      {/* Digital Thrift Shop - Treasure Hunt */}
-      <DigitalThriftShop />
-
-      {/* Featured Products with Bento Grid */}
-      <section className="py-16 bg-gradient-to-br from-white to-peach-50/30">
-        <div className="container">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h2 className="text-display-md font-serif text-luxury">Trending Now</h2>
-              <p className="text-charcoal-600 font-body">Most loved items this week</p>
-            </div>
-            <Link to="/products" className="btn btn-outline hidden md:inline-flex">
-              View All
-            </Link>
-          </div>
-
-          {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <div className="relative">
-                <div className="animate-spin rounded-full h-16 w-16 border-4 border-coral-200" />
-                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-coral-600 absolute top-0" />
+            {/* Main headline with creative quote */}
+            <div className="mb-4">
+              <div className="inline-block bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full text-sm font-semibold mb-4 animate-bounce-slow">
+                ♻️ Sharing is Caring 💛
               </div>
             </div>
-          ) : (
-            <BentoGrid>
-              {featuredProducts.map((product) => (
-                <BentoProduct key={product._id} product={product} size="medium" />
-              ))}
-            </BentoGrid>
-          )}
-
-          {!loading && featuredProducts.length === 0 && (
-            <div className="text-center py-20 card-bento">
-              <div className="text-6xl mb-4">📦</div>
-              <p className="text-xl text-charcoal-600 mb-4 font-body">No products available yet</p>
-              <p className="text-charcoal-500 mb-6">Be the first to list an item and start earning!</p>
-              <Link to="/create-listing" className="btn btn-luxury">
-                Create Listing
-              </Link>
-            </div>
-          )}
-
-          <div className="mt-8 text-center md:hidden">
-            <Link to="/products" className="btn btn-outline w-full sm:w-auto">
-              View All Items
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Styling Section */}
-      <AIStyling />
-
-      {/* Professional Security Architecture */}
-      <SecurityArchitecture />
-
-      {/* Sustainability Impact */}
-      <section className="py-16 bg-gradient-to-br from-green-50 to-mermaid-50">
-        <div className="container">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="text-6xl mb-6 animate-float">🌍</div>
-            <h2 className="text-display-md font-serif text-luxury mb-6">
-              Your Impact on the Planet
-            </h2>
-            <p className="text-xl text-charcoal-600 font-body mb-12">
-              Join 15,000+ conscious consumers reducing fashion waste and carbon emissions
-            </p>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="card-bento p-6">
-                <p className="text-4xl font-display font-bold text-green-600 mb-2">2.4T</p>
-                <p className="text-sm text-charcoal-600">CO₂ Saved</p>
-              </div>
-              <div className="card-bento p-6">
-                <p className="text-4xl font-display font-bold text-coolBlue-600 mb-2">890M</p>
-                <p className="text-sm text-charcoal-600">Liters of 💧</p>
-              </div>
-              <div className="card-bento p-6">
-                <p className="text-4xl font-display font-bold text-gold-600 mb-2">1.2M</p>
-                <p className="text-sm text-charcoal-600">Items Reused</p>
-              </div>
-              <div className="card-bento p-6">
-                <p className="text-4xl font-display font-bold text-mermaid-600 mb-2">₹48Cr</p>
-                <p className="text-sm text-charcoal-600">Money Saved</p>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+              Access Your Neighbour's Closet! 👚✨
+            </h1>
+            
+            <p className="text-xl md:text-2xl mb-6 font-medium opacity-95">
+              Rent, Share, Repeat - The Happy Way to Fashion 🌟
+            </p>
+
+            {/* Trust Score */}
+            <div className="flex justify-center mb-6">
+              <div className="bg-white/20 backdrop-blur-md px-6 py-3 rounded-2xl">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl">😊</span>
+                  <div className="text-left">
+                    <p className="text-2xl font-bold">15,420</p>
+                    <p className="text-sm opacity-90">Happy Sharers</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="mt-12 p-8 glass rounded-2xl border border-white/20">
-              <h3 className="text-2xl font-serif font-bold mb-4">
-                Circular Fashion is the Future
-              </h3>
-              <p className="text-charcoal-700 font-body mb-6">
-                Every secondhand purchase prevents one new garment from being manufactured, 
-                saving an average of 24kg of CO₂ and 2,700 liters of water. Together, 
-                we're building a sustainable fashion ecosystem for India.
-              </p>
-              <Link to="/register" className="btn btn-cool">
-                Join the Movement
+            {/* Quick Actions - Bright pills */}
+            <div className="flex flex-wrap gap-3 justify-center mb-6">
+              {quickActions.map(action => (
+                <Link
+                  key={action.name}
+                  to={action.link}
+                  className={`${action.color} px-5 py-2.5 rounded-full text-sm font-semibold hover:scale-105 transition-transform shadow-lg`}
+                >
+                  {action.icon} {action.name}
+                </Link>
+              ))}
+            </div>
+
+            {/* Personalize Button */}
+            {userPreferences && (
+              <button
+                onClick={() => setShowPersonalization(true)}
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm transition-all"
+              >
+                ⚙️ Update My Vibe
+              </button>
+            )}
+          </div>
+        </div>
+      </section>
+
+
+      {/* Tabbed Content - LAZY LOADED! Only loads when clicked 🚀 */}
+      <section className="py-8">
+        <div className="container">
+          {/* Colorful Tab Navigation */}
+          <div className="flex gap-2 overflow-x-auto pb-2 mb-6 hide-scrollbar">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => handleTabClick(tab.id)}
+                className={`px-6 py-3 rounded-full whitespace-nowrap font-semibold transition-all transform ${
+                  activeTab === tab.id
+                    ? `bg-gradient-to-r ${tab.color} text-white shadow-xl scale-105`
+                    : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:scale-105 shadow-md'
+                }`}
+              >
+                {tab.icon} {tab.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Preferences Banner (only for "For You" tab) */}
+          {activeTab === 'foryou' && userPreferences && (
+            <div className="bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl p-5 mb-6 shadow-lg">
+              <div className="flex items-start gap-3">
+                <span className="text-3xl">🎯</span>
+                <div className="flex-1">
+                  <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-white">
+                    Personalized Just for You! ✨
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {userPreferences.categories.slice(0, 3).map(cat => (
+                      <span key={cat} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm font-medium shadow-sm">
+                        {cat}
+                      </span>
+                    ))}
+                    {userPreferences.occasions.slice(0, 3).map(occ => (
+                      <span key={occ} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm font-medium shadow-sm">
+                        {occ}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Tab Content - Lazy Loaded */}
+          <div className="mb-6">
+            {loadingTabs[activeTab] ? (
+              // Beautiful skeleton while loading
+              <ProductGridSkeleton count={12} />
+            ) : tabData[activeTab] && tabData[activeTab].length > 0 ? (
+              // Actual products
+              <BentoGrid>
+                {tabData[activeTab].map((product) => (
+                  <BentoProduct key={product._id} product={product} size="medium" />
+                ))}
+              </BentoGrid>
+            ) : tabData[activeTab] && tabData[activeTab].length === 0 ? (
+              // Empty state
+              <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-3xl shadow-lg">
+                <div className="text-6xl mb-4">🎈</div>
+                <p className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                  Nothing here yet!
+                </p>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  Be the first to share something amazing
+                </p>
+                <Link to="/create-listing" className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform shadow-lg">
+                  Start Sharing 🌟
+                </Link>
+              </div>
+            ) : null}
+          </div>
+
+          {/* Show More Button */}
+          {tabData[activeTab] && tabData[activeTab].length > 0 && (
+            <div className="text-center">
+              <Link 
+                to="/products" 
+                className="inline-block bg-gradient-to-r from-pink-400 to-purple-500 text-white px-10 py-4 rounded-full font-bold hover:scale-105 transition-transform shadow-xl"
+              >
+                Explore All Items 🚀
               </Link>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Happy Stats Section - Sharing is Caring Theme */}
+      <section className="py-12 bg-white dark:bg-gray-900">
+        <div className="container">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-2">
+              <span className="bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+                Making the World Happier! 🌍💛
+              </span>
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">Because sharing is caring ✨</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="text-center p-6 bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/30 dark:to-green-800/30 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+              <div className="text-4xl mb-2">🌱</div>
+              <p className="text-3xl font-bold text-green-700 dark:text-green-400 mb-1">2.4T</p>
+              <p className="text-sm font-medium text-green-600 dark:text-green-500">CO₂ Saved</p>
+            </div>
+            
+            <div className="text-center p-6 bg-gradient-to-br from-yellow-100 to-yellow-200 dark:from-yellow-900/30 dark:to-yellow-800/30 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+              <div className="text-4xl mb-2">😊</div>
+              <p className="text-3xl font-bold text-yellow-700 dark:text-yellow-400 mb-1">15K+</p>
+              <p className="text-sm font-medium text-yellow-600 dark:text-yellow-500">Happy Sharers</p>
+            </div>
+            
+            <div className="text-center p-6 bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/30 dark:to-orange-800/30 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+              <div className="text-4xl mb-2">♻️</div>
+              <p className="text-3xl font-bold text-orange-700 dark:text-orange-400 mb-1">1.2M</p>
+              <p className="text-sm font-medium text-orange-600 dark:text-orange-500">Items Shared</p>
+            </div>
+            
+            <div className="text-center p-6 bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-900/30 dark:to-pink-800/30 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+              <div className="text-4xl mb-2">💰</div>
+              <p className="text-3xl font-bold text-pink-700 dark:text-pink-400 mb-1">₹48Cr</p>
+              <p className="text-sm font-medium text-pink-600 dark:text-pink-500">Money Saved</p>
+            </div>
+          </div>
+
+          {/* Motivational quote */}
+          <div className="mt-10 text-center">
+            <div className="inline-block bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 p-8 rounded-3xl shadow-2xl max-w-2xl">
+              <p className="text-2xl md:text-3xl font-bold text-white mb-3">
+                "Why buy when you can borrow from your neighbor?" 🏡
+              </p>
+              <p className="text-white/90 text-lg">
+                Join the sharing economy revolution! 🚀✨
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Digital Concierge Modal */}
-      {showConcierge && <DigitalConcierge onClose={() => setShowConcierge(false)} />}
+      {/* Personalization Modal */}
+      {showPersonalization && (
+        <PersonalizationModal
+          onComplete={handlePersonalizationComplete}
+          onSkip={() => {
+            setShowPersonalization(false);
+            localStorage.setItem('hasCompletedOnboarding', 'true');
+          }}
+        />
+      )}
     </div>
   );
 };

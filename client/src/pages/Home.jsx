@@ -123,8 +123,12 @@ const Home = () => {
               Access Your Neighbour's Closet! 👚✨
             </h1>
             
-            <p className="text-xl md:text-2xl mb-6 font-medium opacity-95">
-              Rent, Share, Repeat - The Happy Way to Fashion 🌟
+            <p className="text-xl md:text-2xl mb-3 font-medium opacity-95">
+              The Happy Way to Circular Fashion 🌟
+            </p>
+            
+            <p className="text-lg md:text-xl mb-6 opacity-90">
+              Rent, Share, Repeat - Because Every Outfit Deserves a Second Life! ♻️
             </p>
 
             {/* Trust Score */}
@@ -393,10 +397,13 @@ const Home = () => {
           <div className="mt-10 text-center">
             <div className="inline-block bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 p-8 rounded-3xl shadow-2xl max-w-2xl">
               <p className="text-2xl md:text-3xl font-bold text-white mb-3">
-                "Why buy when you can borrow from your neighbor?" 🏡
+                "The Happy Way to Circular Fashion!" 🌟
               </p>
-              <p className="text-white/90 text-lg">
-                Join the sharing economy revolution! 🚀✨
+              <p className="text-white/90 text-lg mb-2">
+                Why buy when you can borrow from your neighbor? 🏡
+              </p>
+              <p className="text-white/80 text-base">
+                Join the sharing economy revolution - where style meets sustainability! 🚀✨
               </p>
             </div>
           </div>

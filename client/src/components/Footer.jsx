@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Logo from './Logo';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -10,14 +11,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="bg-gradient-to-br from-mocha-500 to-gold-500 p-3 rounded-xl">
-                <span className="text-3xl">♻️</span>
-              </div>
-              <div>
-                <h3 className="text-2xl font-serif font-bold">Closetly</h3>
-                <p className="text-xs text-accent text-gold-400">Infinite Fashion Access</p>
-              </div>
+            <div className="mb-6">
+              <Logo showTagline={true} className="" />
             </div>
             <p className="text-charcoal-300 font-body mb-6">
               India's premier P2P fashion rental marketplace. Rent designer clothes, jewelry, and accessories with style twin recommendations and 90-minute hyperlocal delivery.

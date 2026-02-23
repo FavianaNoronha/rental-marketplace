@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import ThemeToggle from './ThemeToggle';
+import Logo from './Logo';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -13,21 +14,8 @@ const Navbar = () => {
       <nav className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-elevation-2 sticky top-0 z-50 border-b border-charcoal-100 dark:border-gray-700">
         <div className="container py-4">
           <div className="flex justify-between items-center">
-            {/* Logo with 2026 Neo-Deco Style */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-mocha-500 to-gold-500 rounded-xl blur opacity-50 group-hover:opacity-75 transition" />
-                <div className="relative bg-gradient-to-br from-mocha-500 to-gold-500 p-2 rounded-xl">
-                  <span className="text-2xl">♻️</span>
-                </div>
-              </div>
-              <div>
-                <h1 className="text-2xl font-serif font-bold text-luxury dark:text-white leading-none">
-                  Closetly
-                </h1>
-                <p className="text-xs text-accent text-mocha-600 dark:text-mocha-400 leading-none">Infinite Fashion Access</p>
-              </div>
-            </Link>
+            {/* Logo */}
+            <Logo />
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-6">

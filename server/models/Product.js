@@ -12,15 +12,52 @@ const productSchema = new mongoose.Schema({
     required: [true, 'Please provide a description'],
     maxlength: [2000, 'Description cannot be more than 2000 characters']
   },
+  // Professional Taxonomy (Myntra-level categorization)
+  pillar: {
+    type: String,
+    required: [true, 'Please select a pillar category'],
+    enum: ['Utsav', 'Safar', 'Alankrit', 'Niche-Luxe', 'Completers']
+  },
   category: {
     type: String,
     required: [true, 'Please select a category'],
-    enum: ['Clothes', 'Shoes', 'Accessories', 'Bags', 'Jewelry', 'Other']
+    enum: [
+      // Utsav (Festive/Occasion)
+      'Lehenga', 'Anarkali', 'Sharara', 'Structured-Drape', 'Saree',
+      'Sherwani', 'Jodhpuri', 'Bandhgala', 'Nehru-Jacket', 'Kurta-Set',
+      // Safar (Travel/Western)
+      'Travel-Pack', 'Resort-Wear', 'Vacation-Dress', 'Kaftan', 'Power-Casual',
+      'Blazer', 'Jumpsuit', 'Maxi-Dress', 'Beach-Wear',
+      // Alankrit (Jewelry)
+      'Necklace', 'Choker', 'Earrings', 'Bangles', 'Maang-Tikka', 'Bracelet',
+      // Niche-Luxe
+      'Maternity', 'Nursing-Wear', 'Plus-Size', 'Luxury-Bag', 'Designer-Handbag',
+      // Completers
+      'Mojari', 'Jutii', 'Kolhapuri', 'Designer-Heels', 'Luxury-Sneakers', 'Clutch',
+      // General
+      'Other'
+    ]
   },
-  subcategory: {
+  gender: {
     type: String,
-    required: [true, 'Please select a subcategory'],
-    enum: ['Men', 'Women', 'Kids', 'Unisex']
+    required: [true, 'Please select gender category'],
+    enum: ['Women', 'Men', 'Kids', 'Unisex']
+  },
+  occasion: {
+    type: String,
+    enum: [
+      'Wedding', 'Sangeet', 'Mehendi', 'Reception', 'Engagement',
+      'Festival', 'Party', 'Corporate', 'Vacation', 'Beach', 'Hill-Station',
+      'Daily-Wear', 'Date-Night', 'Brunch', 'Cocktail', 'Traditional-Event'
+    ]
+  },
+  vibe: {
+    type: [String],
+    enum: [
+      'Neon-Gothic', 'Mermaidcore', 'Cottagecore', 'Dark-Academia',
+      'Coastal-Grandmother', 'Clean-Girl', 'Barbiecore', 'Y2K',
+      'Minimalist', 'Maximalist', 'Bohemian', 'Royal', 'Contemporary'
+    ]
   },
   condition: {
     type: String,
@@ -164,7 +201,7 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  // Boost/promotion features
+  // Boost/promotion features (PPC)
   boosted: {
     isActive: {
       type: Boolean,
@@ -179,7 +216,73 @@ const productSchema = new mongoose.Schema({
     clicks: {
       type: Number,
       default: 0
+    },
+    budget: {
+      type: Number,
+      default: 0
+    },
+    costPerClick: {
+      type: Number,
+      default: 5 // ₹5 per click
+    },
+    totalSpent: {
+      type: Number,
+      default: 0
+    },
+    position: {
+      type: String,
+      enum: ['top', 'featured_carousel', 'category_top'],
+      default: 'top'
     }
+  },
+  // Destination Bundles (Travel Pack)
+  isPartOfBundle: {
+    type: Boolean,
+    default: false
+  },
+  bundles: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Bundle'
+  }],
+  // Influencer/Celebrity closet
+  celebOwned: {
+    isCelebItem: {
+      type: Boolean,
+      default: false
+    },
+    celebId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    celebName: String,
+    verified: {
+      type: Boolean,
+      default: false
+    }
+  },
+  // Geofencing metadata
+  geofence: {
+    expressDeliveryAvailable: {
+      type: Boolean,
+      default: false
+    },
+    hyperlocalOnly: {
+      type: Boolean,
+      default: false // Only show within 15km
+    },
+    deliveryRadius: {
+      type: Number,
+      default: 15 // km
+    }
+  },
+  // Concierge service availability
+  conciergeAvailable: {
+    type: Boolean,
+    default: false
+  },
+  vaultStored: {
+    type: Boolean,
+    default: false // Stored in central vault for instant dispatch
   },
   // Rental availability tracking
   currentRental: {

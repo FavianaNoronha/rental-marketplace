@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
 const {
-  processRentalPayment,
+  createRentalOrder,
+  verifyAndCapturePayment,
   refundSecurityDeposit,
   processAdditionalCharge,
   getUserTransactions,
@@ -12,7 +13,9 @@ const {
 // All routes require authentication
 router.use(protect);
 
-router.post('/rental-payment', processRentalPayment);
+// Razorpay integration routes
+router.post('/create-order', createRentalOrder);
+router.post('/verify-payment', verifyAndCapturePayment);
 router.post('/refund-deposit', refundSecurityDeposit);
 router.post('/additional-charge', processAdditionalCharge);
 router.get('/transactions', getUserTransactions);

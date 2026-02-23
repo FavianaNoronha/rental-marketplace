@@ -22,9 +22,9 @@ const Navbar = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-serif font-bold text-luxury leading-none">
-                  CircleStyle
+                  Closetly
                 </h1>
-                <p className="text-xs text-accent text-mocha-600 leading-none">Circular Fashion</p>
+                <p className="text-xs text-accent text-mocha-600 leading-none">Infinite Fashion Access</p>
               </div>
             </Link>
 

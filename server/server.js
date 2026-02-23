@@ -89,6 +89,11 @@ app.use('/api/stories', require('./routes/stories'));
 app.use('/api/collections', require('./routes/collections'));
 app.use('/api/social', require('./routes/social'));
 
+// Strategic Blueprint 2026 - New Features
+app.use('/api/subscriptions', require('./routes/subscriptions'));
+app.use('/api/bundles', require('./routes/bundles'));
+app.use('/api/deliveries', require('./routes/deliveries'));
+
 // Health check
 app.get('/api/health', async (req, res) => {
   try {

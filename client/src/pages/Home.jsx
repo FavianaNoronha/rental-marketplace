@@ -8,6 +8,8 @@ import DigitalBazaar from '../components/DigitalBazaar';
 import DigitalThriftShop from '../components/DigitalThriftShop';
 import SecurityArchitecture from '../components/SecurityArchitecture';
 import AIStyling from '../components/AIStyling';
+import TaskBasedNavigation from '../components/TaskBasedNavigation';
+import FourPillars from '../components/FourPillars';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -66,18 +68,17 @@ const Home = () => {
         <div className="container relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-display-lg md:text-display-xl font-serif mb-6 animate-fade-in">
-              The Future of Fashion is{' '}
-              <span className="text-gradient-gold inline-block">Circular</span>
+              Your{' '}
+              <span className="text-gradient-gold inline-block">Life-Event Companion</span>
             </h1>
             <p className="text-xl md:text-2xl mb-4 font-body opacity-90 animate-slide-up">
-              Buy, Sell, & Bid on Fashion, Jewelry, and Gadgets in India's Most Elegant Resale Marketplace
+              From Weddings to Vacations, Festivals to Date Nights - Rent Designer Fashion for Every Moment
             </p>
             <div className="flex flex-wrap gap-3 justify-center mb-10 text-sm md:text-base animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <span className="glass px-4 py-2 rounded-full">✓ AI Authentication</span>
-              <span className="glass px-4 py-2 rounded-full">✓ Escrow Protected</span>
-              <span className="glass px-4 py-2 rounded-full">✓ Hygiene Certified</span>
-              <span className="glass px-4 py-2 rounded-full">✓ KYC Verified</span>
-              <span className="glass px-4 py-2 rounded-full">✓ Carbon Neutral</span>
+              <span className="glass px-4 py-2 rounded-full">🪔 Utsav - Festive Wear</span>
+              <span className="glass px-4 py-2 rounded-full">✈️ Safar - Travel Packs</span>
+              <span className="glass px-4 py-2 rounded-full">💎 Alankrit - Jewelry</span>
+              <span className="glass px-4 py-2 rounded-full">🌟 Niche-Luxe</span>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.4s' }}>
               <Link to="/products" className="btn btn-luxury px-10 py-4 text-lg shadow-luxury">
@@ -170,30 +171,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categories - Bento Grid Style */}
-      <section className="py-16 bg-white">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-display-md font-serif text-luxury mb-4">Shop by Category</h2>
-            <p className="text-lg text-charcoal-600 font-body max-w-2xl mx-auto">
-              From traditional ethnic wear to modern gadgets, discover everything you need
-            </p>
-          </div>
-          <BentoGrid>
-            {categories.map((category) => (
-              <BentoCategory
-                key={category.name}
-                name={category.name}
-                icon={category.icon}
-                image={category.image}
-                count={category.count}
-                link={`/products?category=${category.name}`}
-                color={category.color}
-              />
-            ))}
-          </BentoGrid>
-        </div>
-      </section>
+      {/* Task-Based Navigation - Myntra-level Category Recall */}
+      <TaskBasedNavigation />
+
+      {/* Four Pillars - Professional Taxonomy */}
+      <FourPillars />
 
       {/* Digital Bazaar Section */}
       <DigitalBazaar />

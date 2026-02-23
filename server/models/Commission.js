@@ -37,7 +37,7 @@ const commissionSchema = new mongoose.Schema({
   commissionRate: {
     type: Number,
     required: true,
-    default: 10, // Default 10% commission
+    default: 15, // Default 15% for rentals (15-30%), 10% for sales (10-20%)
     min: 0,
     max: 100
   },

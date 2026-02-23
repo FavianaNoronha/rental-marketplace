@@ -15,13 +15,12 @@ const Footer = () => {
                 <span className="text-3xl">♻️</span>
               </div>
               <div>
-                <h3 className="text-2xl font-serif font-bold">CircleStyle</h3>
-                <p className="text-xs text-accent text-gold-400">Circular Fashion Marketplace</p>
+                <h3 className="text-2xl font-serif font-bold">Closetly</h3>
+                <p className="text-xs text-accent text-gold-400">Infinite Fashion Access</p>
               </div>
             </div>
             <p className="text-charcoal-300 font-body mb-6">
-              India's most elegant resale marketplace for circular fashion, jewelry, and gadgets. 
-              Buy, sell, and bid sustainably.
+              India's premier P2P fashion rental marketplace. Rent designer clothes, jewelry, and accessories with style twin recommendations and 90-minute hyperlocal delivery.
             </p>
             <div className="flex gap-4">
               <a href="#" className="btn-icon hover:bg-white/10 text-gold-400 hover:text-gold-300">

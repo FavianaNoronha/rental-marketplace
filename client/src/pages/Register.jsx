@@ -41,7 +41,7 @@ const Register = () => {
     const result = await register(formData.name, formData.email, formData.password);
 
     if (result.success) {
-      toast.success('Registration successful! Welcome to RentStyle!');
+      toast.success('Registration successful! Welcome to Closetly!');
       navigate('/dashboard');
     } else {
       toast.error(result.message || 'Registration failed');

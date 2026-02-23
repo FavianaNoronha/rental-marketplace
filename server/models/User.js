@@ -148,7 +148,7 @@ const userSchema = new mongoose.Schema({
       lastActive: Date
     }
   },
-  // Premium/subscription
+  // Premium/subscription (Style Pass)
   premium: {
     isActive: {
       type: Boolean,
@@ -181,6 +181,120 @@ const userSchema = new mongoose.Schema({
       }
     }
   },
+  // Active subscription reference
+  activeSubscription: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subscription'
+  },
+  // AI Style Profile for Style Twins matching
+  styleProfile: {
+    // Body measurements
+    measurements: {
+      height: {
+        type: Number, // in cm
+        min: 100,
+        max: 250
+      },
+      weight: {
+        type: Number, // in kg
+        min: 30,
+        max: 200
+      },
+      bust: Number, // in inches
+      waist: Number,
+      hips: Number,
+      shoulders: Number,
+      inseam: Number,
+      // Standard sizes
+      topSize: {
+        type: String,
+        enum: ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL']
+      },
+      bottomSize: {
+        type: String,
+        enum: ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL']
+      },
+      shoeSize: {
+        type: Number,
+        min: 4,
+        max: 15
+      },
+      // Indian sizing
+      lehengaSize: String,
+      blouseSize: String,
+      sareeSize: String
+    },
+    // Physical characteristics
+    bodyType: {
+      type: String,
+      enum: ['petite', 'slim', 'athletic', 'curvy', 'plus_size', 'tall']
+    },
+    skinTone: {
+      type: String,
+      enum: ['fair', 'light', 'medium', 'olive', 'tan', 'brown', 'dark']
+    },
+    hairColor: {
+      type: String,
+      enum: ['black', 'brown', 'blonde', 'red', 'grey', 'other']
+    },
+    // Style preferences
+    stylePreferences: {
+      preferredColors: [String],
+      avoidColors: [String],
+      occasions: [{
+        type: String,
+        enum: ['casual', 'formal', 'party', 'wedding', 'ethnic', 'western', 'fusion']
+      }],
+      brands: [String],
+      priceRange: {
+        min: Number,
+        max: Number
+      }
+    },
+    // AI matching metadata
+    styleTwinScore: {
+      type: Number,
+      default: 0 // Similarity score for matching
+    },
+    lastUpdated: {
+      type: Date,
+      default: Date.now
+    }
+  },
+  // Aadhaar KYC for security
+  aadhaar: {
+    number: {
+      type: String,
+      select: false, // Don't return in queries by default
+      match: [/^[0-9]{12}$/, 'Invalid Aadhaar number']
+    },
+    verified: {
+      type: Boolean,
+      default: false
+    },
+    verifiedAt: Date,
+    videoKycCompleted: {
+      type: Boolean,
+      default: false
+    },
+    videoKycDate: Date,
+    kycProvider: {
+      type: String,
+      enum: ['signzy', 'hyperverge', 'manual']
+    },
+    kycReferenceId: String
+  },
+  // Security deposits & financial
+  paymentMethods: [{
+    type: {
+      type: String,
+      enum: ['card', 'upi', 'netbanking', 'wallet']
+    },
+    provider: String, // razorpay, cashfree
+    last4: String,
+    isDefault: Boolean,
+    customerId: String // Razorpay/Cashfree customer ID
+  }],
   // Earnings & commission tracking
   earnings: {
     total: {

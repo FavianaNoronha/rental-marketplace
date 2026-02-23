@@ -3,14 +3,26 @@ import TrustBadge from './TrustBadge';
 
 const ProductCard = ({ product }) => {
   const getImageUrl = (image) => {
+    // Handle different image formats with fallback to fashion placeholder
+    if (!image) return 'https://images.unsplash.com/photo-1558769132-cb1aea3f9a5e?w=800';
+    
+    if (typeof image === 'string') {
+      if (image.startsWith('http')) return image;
+      return image;
+    }
+    
     if (image?.url) {
       return image.url.startsWith('http') ? image.url : image.url;
     }
-    return 'https://via.placeholder.com/400x500?text=No+Image';
+    
+    return 'https://images.unsplash.com/photo-1558769132-cb1aea3f9a5e?w=800';
   };
 
   const formatPrice = (product) => {
-    // Sales-only marketplace - show sale price
+    // Check listing type and show appropriate price
+    if (product.listingType === 'rent' || product.listingType === 'both') {
+      return `₹${product.price?.rent?.perDay || product.price || 0}/day`;
+    }
     return `₹${product.price?.sale || product.price || 0}`;
   };
 
@@ -33,8 +45,9 @@ const ProductCard = ({ product }) => {
             src={getImageUrl(product.images?.[0])}
             alt={product.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            loading="lazy"
             onError={(e) => {
-              e.target.src = 'https://via.placeholder.com/400x500?text=No+Image';
+              e.target.src = 'https://images.unsplash.com/photo-1558769132-cb1aea3f9a5e?w=800';
             }}
           />
           

@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": "Closetly",
+    "slug": "closetly-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.closetly.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "We need your location to show nearby fashion items",
+        "NSPhotoLibraryUsageDescription": "We need access to your photos to upload product images",
+        "NSCameraUsageDescription": "We need camera access to take product photos"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.closetly.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Closetly to access your photos to upload product images"
+        }
+      ]
+    ],
+    "extra": {
+      "apiUrl": "https://closetly-backend-vbm0.onrender.com/api",
+      "eas": {
+        "projectId": "your-project-id"
+      }
+    }
+  }
+}

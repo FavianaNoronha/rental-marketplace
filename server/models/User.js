@@ -10,8 +10,12 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'Please provide an email'],
+    required: function() {
+      // Email required only if phone is not provided
+      return !this.phone;
+    },
     unique: true,
+    sparse: true, // Allow multiple null values
     lowercase: true,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
@@ -20,7 +24,10 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
+    required: function() {
+      // Password required only for email-based auth
+      return !!this.email && !this.email.includes('@phone.closetly.com');
+    },
     minlength: [6, 'Password must be at least 6 characters'],
     select: false
   },
@@ -34,7 +41,9 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    match: [/^[0-9]{10}$/, 'Please provide a valid phone number']
+    unique: true,
+    sparse: true, // Allow multiple null values
+    match: [/^[6-9]\d{9}$/, 'Please provide a valid 10-digit Indian phone number']
   },
   location: {
     city: String,

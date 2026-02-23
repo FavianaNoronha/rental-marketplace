@@ -7,7 +7,10 @@ const {
   updateDetails,
   updatePassword,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  sendPhoneOTP,
+  verifyPhoneOTP,
+  resendPhoneOTP
 } = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 const validate = require('../middleware/validator');
@@ -43,9 +46,37 @@ const loginValidation = [
     .withMessage('Password is required')
 ];
 
+const phoneOTPValidation = [
+  body('phone')
+    .trim()
+    .notEmpty()
+    .withMessage('Phone number is required')
+    .matches(/^[6-9]\d{9}$/)
+    .withMessage('Please provide a valid 10-digit Indian phone number')
+];
+
+const verifyOTPValidation = [
+  body('phone')
+    .trim()
+    .notEmpty()
+    .withMessage('Phone number is required'),
+  body('otp')
+    .trim()
+    .notEmpty()
+    .withMessage('OTP is required')
+    .isLength({ min: 6, max: 6 })
+    .withMessage('OTP must be 6 digits')
+];
+
 // Routes
 router.post('/register', registerValidation, validate, register);
 router.post('/login', loginValidation, validate, login);
+
+// Phone OTP routes
+router.post('/phone/send-otp', phoneOTPValidation, validate, sendPhoneOTP);
+router.post('/phone/verify-otp', verifyOTPValidation, validate, verifyPhoneOTP);
+router.post('/phone/resend-otp', phoneOTPValidation, validate, resendPhoneOTP);
+
 router.get('/me', protect, getMe);
 router.put('/updatedetails', protect, updateDetails);
 router.put('/updatepassword', protect, updatePassword);

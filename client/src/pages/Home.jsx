@@ -1,10 +1,17 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import api from '../services/api';
-import BentoGrid, { BentoProduct } from '../components/BentoGrid';
+import BentoGrid, { BentoCard, BentoHero, BentoStat, BentoProduct } from '../components/BentoGrid';
 import PersonalizationModal from '../components/PersonalizationModal';
 import { ProductGridSkeleton } from '../components/SkeletonLoader';
 import { TrustScore } from '../components/TrustBadge';
+import DigitalConcierge from '../components/DigitalConcierge';
+import DigitalBazaar from '../components/DigitalBazaar';
+import DigitalThriftShop from '../components/DigitalThriftShop';
+import SecurityArchitecture from '../components/SecurityArchitecture';
+import AIStyling from '../components/AIStyling';
+import TaskBasedNavigation from '../components/TaskBasedNavigation';
+import FourPillars from '../components/FourPillars';
 
 const Home = () => {
   const [tabData, setTabData] = useState({});
@@ -12,6 +19,7 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState('foryou');
   const [showPersonalization, setShowPersonalization] = useState(false);
   const [userPreferences, setUserPreferences] = useState(null);
+  const [showConcierge, setShowConcierge] = useState(false);
 
   useEffect(() => {
     // Check if user has completed onboarding
@@ -145,6 +153,19 @@ const Home = () => {
               ))}
             </div>
 
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+              <Link to="/products" className="bg-white text-orange-600 px-10 py-4 rounded-full text-lg font-bold hover:scale-105 transition-transform shadow-xl">
+                Explore Collection
+              </Link>
+              <button 
+                onClick={() => setShowConcierge(true)}
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border-2 border-white px-10 py-4 rounded-full text-lg font-bold transition-all"
+              >
+                Personal Concierge ✨
+              </button>
+            </div>
+
             {/* Personalize Button */}
             {userPreferences && (
               <button
@@ -248,6 +269,88 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Bento Grid - Featured Content with Happy Theme */}
+      <section className="py-16 bg-gradient-to-br from-yellow-50 via-orange-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-2">
+              <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+                Featured Collections ✨
+              </span>
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">Curated picks just for you</p>
+          </div>
+
+          <BentoGrid>
+            {/* AI Feature Highlight */}
+            <BentoCard size="medium" className="bg-gradient-to-br from-yellow-400 to-orange-500 text-white">
+              <div className="h-full flex flex-col justify-between">
+                <div>
+                  <div className="text-5xl mb-4">🤖</div>
+                  <h3 className="text-2xl font-serif font-bold mb-2">AI Styling</h3>
+                  <p className="text-sm opacity-90 mb-4">
+                    Upload your wardrobe and get personalized outfit recommendations powered by AI
+                  </p>
+                </div>
+                <button className="btn bg-white text-orange-600 hover:bg-gray-50 w-full font-bold">
+                  Try Now
+                </button>
+              </div>
+            </BentoCard>
+
+            {/* Featured Category Highlight */}
+            <BentoCard size="medium" className="bg-gradient-to-br from-pink-100 to-purple-100 dark:from-pink-900/30 dark:to-purple-900/30">
+              <div className="flex flex-col justify-between h-full">
+                <div>
+                  <span className="inline-block bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold mb-3">Trending</span>
+                  <h3 className="text-2xl font-serif font-bold mb-2 text-gray-800 dark:text-white">Pre-Loved Gadgets</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                    Laptops, cameras, gaming consoles & more. Get premium tech at unbeatable prices.
+                  </p>
+                </div>
+                <Link to="/products?category=Gadgets" className="btn bg-gradient-to-r from-pink-500 to-purple-500 text-white w-full font-bold">
+                  Explore Gadgets
+                </Link>
+              </div>
+            </BentoCard>
+
+            {/* Stats Cards */}
+            <BentoStat
+              label="Active Listings"
+              value="4.2K"
+              icon="📦"
+              trend={12}
+              color="yellow"
+            />
+            <BentoStat
+              label="Happy Sharers"
+              value="15K+"
+              icon="😊"
+              trend={18}
+              color="orange"
+            />
+          </BentoGrid>
+        </div>
+      </section>
+
+      {/* Task-Based Navigation - Myntra-level Category Recall */}
+      <TaskBasedNavigation />
+
+      {/* Four Pillars - Professional Taxonomy */}
+      <FourPillars />
+
+      {/* Digital Bazaar Section */}
+      <DigitalBazaar />
+
+      {/* Digital Thrift Shop - Treasure Hunt */}
+      <DigitalThriftShop />
+
+      {/* AI Styling Section */}
+      <AIStyling />
+
+      {/* Professional Security Architecture */}
+      <SecurityArchitecture />
+
       {/* Happy Stats Section - Sharing is Caring Theme */}
       <section className="py-12 bg-white dark:bg-gray-900">
         <div className="container">
@@ -310,6 +413,9 @@ const Home = () => {
           }}
         />
       )}
+
+      {/* Digital Concierge Modal */}
+      {showConcierge && <DigitalConcierge onClose={() => setShowConcierge(false)} />}
     </div>
   );
 };
